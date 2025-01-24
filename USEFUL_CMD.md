@@ -12,3 +12,5 @@ npm i prisma prisa
 npx prisma init
 npx prisma format
 npx prisma migrate dev
+
+npm i zod
