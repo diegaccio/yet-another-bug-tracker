@@ -24,6 +24,7 @@ const NavBar = () => {
         {links.map(({ href, label }) => (
           <li key={`${href}${label}`}>
             <Link
+              //better conditional class names with classnames function
               className={classNames({
                 "text-zinc-800": currentPage === href,
                 "text-zinc-500": currentPage !== href,
