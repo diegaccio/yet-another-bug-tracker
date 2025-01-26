@@ -22,3 +22,4 @@ npm install @radix-ui/themes
 npm install --save react-simplemde-editor easymde
 npm install react-hook-form
 npm i axios
+npm i @radix-ui/react-icons
