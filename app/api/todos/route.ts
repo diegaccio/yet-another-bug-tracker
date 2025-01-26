@@ -1,5 +1,4 @@
 import { prisma } from "@/prisma/client";
-import { create } from "domain";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 
@@ -12,12 +11,14 @@ export async function POST(request: NextRequest) {
   let body;
   try {
     body = await request.json();
-  } catch (error) {
+  } catch (e) {
+    console.error(e);
     return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
   }
   const validation = todoSchema.safeParse(body);
 
   if (!validation.success) {
+    console.error(validation.error.errors);
     return NextResponse.json(validation.error.errors, {
       status: 400, //BAD REQUEST
     });
