@@ -1,5 +1,9 @@
-import { Button, Flex, Text } from "@radix-ui/themes";
+import Image from "next/image";
 
 export default function Home() {
-  return <Button>New Todo</Button>;
+  return (
+    <div>
+      <h1>Yet another bug tracker</h1>
+    </div>
+  );
 }
