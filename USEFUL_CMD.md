@@ -20,3 +20,5 @@ npx prisma migrate resolve --applied 0_init
 npm i zod
 npm install @radix-ui/themes
 npm install --save react-simplemde-editor easymde
+npm install react-hook-form
+npm i axios
