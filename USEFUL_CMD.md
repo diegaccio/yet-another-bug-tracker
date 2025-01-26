@@ -14,5 +14,8 @@ npx prisma init
 npx prisma format
 npx prisma migrate dev
 
+To apply your initial migration(s):
+npx prisma migrate resolve --applied 0_init
+
 npm i zod
 npm install @radix-ui/themes
