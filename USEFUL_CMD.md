@@ -3,6 +3,7 @@ npm i react-icons
 npm i classnames
 
 docker run --name mysql-container -e MYSQL_ROOT_PASSWORD=masterkey -p 3306:3306 -d mysql:latest
+docker start mysql-container
 
 mysql -h 127.0.0.1 -P 3306 -uroot -p
 
@@ -14,3 +15,4 @@ npx prisma format
 npx prisma migrate dev
 
 npm i zod
+npm install @radix-ui/themes
