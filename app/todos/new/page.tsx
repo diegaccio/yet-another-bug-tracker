@@ -40,14 +40,16 @@ const NewTodoPage = () => {
         })}
       >
         <TextField.Root placeholder="Todo Title" {...register("title")} />
-        <Controller
-          name="description"
-          control={control}
-          render={({ field }) => (
-            //simle mde does not have a placeholder prop so we use the placeholder prop from the controller
-            <SimpleMDE placeholder="Todo Description" {...field} />
-          )}
-        />
+        {
+          <Controller
+            name="description"
+            control={control}
+            render={({ field }) => (
+              //simle mde does not have a placeholder prop so we use the placeholder prop from the controller
+              <SimpleMDE placeholder="Todo Description" {...field} />
+            )}
+          />
+        }
 
         <Button>New Todo</Button>
       </form>

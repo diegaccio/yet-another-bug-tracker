@@ -23,3 +23,6 @@ npm install --save react-simplemde-editor easymde
 npm install react-hook-form
 npm i axios
 npm i @radix-ui/react-icons
+
+TESTS
+npm install jest @types/jest ts-jest --save-dev
