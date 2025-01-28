@@ -17,7 +17,9 @@ type TodoForm = z.infer<typeof todoSchema>;
 
 const NewTodoPage = () => {
   const [error, setError] = useState("");
+
   const [isSubmitting, setSubmitting] = useState(false);
+
   const {
     register,
     control,
@@ -26,7 +28,21 @@ const NewTodoPage = () => {
   } = useForm<TodoForm>({
     resolver: zodResolver(todoSchema),
   });
+
   const router = useRouter();
+
+  const onSubmit = handleSubmit(async (data) => {
+    setSubmitting(true);
+    try {
+      await axios.post("/api/todos", data);
+      router.push("/todos");
+    } catch (error) {
+      setSubmitting(false);
+      console.log(error);
+      setError("An unexpected error occurred");
+    }
+  });
+
   return (
     <div className="max-w-xl space-y-3">
       {error && (
@@ -37,20 +53,7 @@ const NewTodoPage = () => {
           <Callout.Text>{error}</Callout.Text>
         </Callout.Root>
       )}
-      <form
-        className="space-y-3"
-        onSubmit={handleSubmit(async (data) => {
-          setSubmitting(true);
-          try {
-            await axios.post("/api/todos", data);
-            router.push("/todos");
-          } catch (error) {
-            setSubmitting(false);
-            console.log(error);
-            setError("An unexpected error occurred");
-          }
-        })}
-      >
+      <form className="space-y-3" onSubmit={onSubmit}>
         <TextField.Root placeholder="Todo Title" {...register("title")} />
         <ErrorMessage>{errors.title?.message}</ErrorMessage>
         <Controller
