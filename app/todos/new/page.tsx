@@ -1,5 +1,5 @@
 "use client";
-import { Button, Callout, TextField, Text } from "@radix-ui/themes";
+import { Button, Callout, TextField } from "@radix-ui/themes";
 import { InfoCircledIcon } from "@radix-ui/react-icons";
 import SimpleMDE from "react-simplemde-editor";
 import "easymde/dist/easymde.min.css";
@@ -10,6 +10,7 @@ import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { todoSchema } from "@/app/validationSchemas";
 import z from "zod";
+import ErrorMessage from "@/app/components/ErrorMessage";
 
 type TodoForm = z.infer<typeof todoSchema>;
 
@@ -47,11 +48,7 @@ const NewTodoPage = () => {
         })}
       >
         <TextField.Root placeholder="Todo Title" {...register("title")} />
-        {errors.title && (
-          <Text color="red" as="p">
-            errors.title.message
-          </Text>
-        )}
+        <ErrorMessage>{errors.title?.message}</ErrorMessage>
         <Controller
           name="description"
           control={control}
@@ -60,11 +57,7 @@ const NewTodoPage = () => {
             <SimpleMDE placeholder="Todo Description" {...field} />
           )}
         />
-        {errors.description && (
-          <Text color="red" as="p">
-            {errors.description.message}
-          </Text>
-        )}
+        <ErrorMessage>{errors.description?.message}</ErrorMessage>
 
         <Button>New Todo</Button>
       </form>
