@@ -11,11 +11,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { todoSchema } from "@/app/validationSchemas";
 import z from "zod";
 import ErrorMessage from "@/app/components/ErrorMessage";
+import Spinner from "@/app/components/Spinner";
 
 type TodoForm = z.infer<typeof todoSchema>;
 
 const NewTodoPage = () => {
   const [error, setError] = useState("");
+  const [isSubmitting, setSubmitting] = useState(false);
   const {
     register,
     control,
@@ -38,10 +40,12 @@ const NewTodoPage = () => {
       <form
         className="space-y-3"
         onSubmit={handleSubmit(async (data) => {
+          setSubmitting(true);
           try {
             await axios.post("/api/todos", data);
             router.push("/todos");
           } catch (error) {
+            setSubmitting(false);
             console.log(error);
             setError("An unexpected error occurred");
           }
@@ -59,7 +63,10 @@ const NewTodoPage = () => {
         />
         <ErrorMessage>{errors.description?.message}</ErrorMessage>
 
-        <Button>New Todo</Button>
+        <Button disabled={isSubmitting} type="submit">
+          New Todo
+          {isSubmitting && <Spinner />}
+        </Button>
       </form>
     </div>
   );
