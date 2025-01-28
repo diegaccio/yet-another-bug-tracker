@@ -25,3 +25,19 @@ export async function POST(request: NextRequest) {
 
   return NextResponse.json(newTodo, { status: 201 }); //CREATED
 }
+
+export async function GET() {
+  try {
+    const todos = await prisma.todo.findMany();
+    return NextResponse.json(todos, {
+      status: 200, //BAD REQUEST
+    });
+  } catch (error) {
+    return NextResponse.json(
+      { error: "Failed to fetch todos: " + error },
+      {
+        status: 500, //BAD REQUEST
+      }
+    );
+  }
+}

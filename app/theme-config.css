@@ -1,3 +1,7 @@
 .radix-themes {
 	--default-font-family: var(--font-geist-mono);
 }
+
+.ag-root {
+	font-family: var(--font-geist-mono);
+  }
