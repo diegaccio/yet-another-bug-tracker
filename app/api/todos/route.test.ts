@@ -1,11 +1,12 @@
+import { describe, it, expect, vi, Mock } from "vitest";
 import { POST } from "./route";
 import { NextRequest } from "next/server";
 import { prisma } from "@/prisma/client";
 
-jest.mock("@/prisma/client", () => ({
+vi.mock("@/prisma/client", () => ({
   prisma: {
     todo: {
-      create: jest.fn(),
+      create: vi.fn(),
     },
   },
 }));
@@ -45,7 +46,7 @@ describe("POST /api/todos", () => {
       })
     );
 
-    (prisma.todo.create as jest.Mock).mockResolvedValue(requestBody);
+    (prisma.todo.create as Mock).mockResolvedValue(requestBody);
 
     const response = await POST(request);
     const json = await response.json();
