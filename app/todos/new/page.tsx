@@ -1,7 +1,7 @@
 "use client";
 import { Button, Callout, TextField } from "@radix-ui/themes";
 import { InfoCircledIcon } from "@radix-ui/react-icons";
-import SimpleMDE from "react-simplemde-editor";
+import dynamic from "next/dynamic";
 import "easymde/dist/easymde.min.css";
 import { Controller, useForm } from "react-hook-form";
 import axios from "axios";
@@ -14,6 +14,11 @@ import ErrorMessage from "@/app/components/ErrorMessage";
 import Spinner from "@/app/components/Spinner";
 
 type TodoForm = z.infer<typeof todoSchema>;
+
+//lazy loading to avoid server side rendering
+const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
+  ssr: false,
+});
 
 const NewTodoPage = () => {
   const [error, setError] = useState("");

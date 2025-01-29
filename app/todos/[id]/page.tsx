@@ -1,13 +1,11 @@
+import { PageProps } from "@/.next/types/app/page";
 import TodoStatusBadge from "@/app/components/TodoStatusBadge";
 import { prisma } from "@/prisma/client";
 import { Card, Flex, Heading, Text } from "@radix-ui/themes";
 import { notFound } from "next/navigation";
 import ReactMarkdown from "react-markdown";
 
-interface TodoDetailsPageProps {
-  params: { id: string };
-}
-const TodoDetailsPage = async ({ params }: TodoDetailsPageProps) => {
+const TodoDetailsPage = async ({ params }: PageProps) => {
   const { id: idString } = await params;
 
   const id = parseInt(idString);
