@@ -9,9 +9,9 @@ import {
 import { AgGridReact } from "ag-grid-react"; // React Data Grid Component
 import Link from "next/link";
 import ErrorMessage from "../components/ErrorMessage";
-import TodoStatusBadge from "../components/TodoStatusBadge";
 import useTodos from "../hooks/useTodos";
 import DetailsButton from "./DetailsButton";
+import TodoStatusBadgeGrid from "../components/TodoStatusBadgeGrid";
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
@@ -46,7 +46,7 @@ const Page = () => {
             { field: "id" },
             { headerName: "Title", field: "title" },
             { headerName: "Description", field: "description", flex: 3 },
-            { field: "status", cellRenderer: TodoStatusBadge },
+            { field: "status", cellRenderer: TodoStatusBadgeGrid },
             {
               field: "createdAt",
               headerName: "Created At",

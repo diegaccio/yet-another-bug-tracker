@@ -1,4 +1,6 @@
+import TodoStatusBadge from "@/app/components/TodoStatusBadge";
 import { prisma } from "@/prisma/client";
+import { Card, Flex, Heading, Text } from "@radix-ui/themes";
 import { notFound } from "next/navigation";
 
 interface TodoDetailsPageProps {
@@ -17,7 +19,16 @@ const TodoDetailsPage = async ({ params }: TodoDetailsPageProps) => {
 
   if (!todo) notFound();
 
-  return <div>{todo.title}</div>;
+  return (
+    <>
+      <Heading>{todo.title}</Heading>
+      <Flex gap={"4"} my={"2"}>
+        <TodoStatusBadge status={todo.status} />
+        <Text>{todo.createdAt.toDateString()}</Text>
+      </Flex>
+      <Card>{todo.description}</Card>
+    </>
+  );
 };
 
 export default TodoDetailsPage;

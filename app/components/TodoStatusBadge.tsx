@@ -1,6 +1,5 @@
 import { Status } from "@prisma/client";
 import { Badge } from "@radix-ui/themes";
-import { CustomCellRendererProps } from "ag-grid-react";
 
 const statusMap: Record<
   Status,
@@ -11,8 +10,11 @@ const statusMap: Record<
   CLOSED: { color: "green", text: "CLOSED" },
 };
 
-const TodoStatusBadge = ({ value }: CustomCellRendererProps) => {
-  const status = value as Status;
+interface TodoStatusBadgeProps {
+  status: Status;
+}
+
+const TodoStatusBadge = ({ status }: TodoStatusBadgeProps) => {
   return (
     <Badge color={statusMap[status].color}>{statusMap[status].text}</Badge>
   );
