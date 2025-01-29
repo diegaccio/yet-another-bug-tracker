@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import ErrorMessage from "../components/ErrorMessage";
 import { Todo } from "@prisma/client";
 import TodoStatusBadge from "../components/TodoStatusBadge";
+import DetailsButton from "./DetailsButton";
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
@@ -51,6 +52,7 @@ const Page = () => {
           theme={myTheme}
           rowData={todos}
           columnDefs={[
+            { field: "id", headerName: "", cellRenderer: DetailsButton },
             { field: "id" },
             { headerName: "Title", field: "title" },
             { headerName: "Description", field: "description", flex: 3 },
