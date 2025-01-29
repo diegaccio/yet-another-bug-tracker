@@ -4,6 +4,7 @@ import {
   AllCommunityModule,
   ModuleRegistry,
   themeQuartz,
+  ValueFormatterParams,
 } from "ag-grid-community";
 import { AgGridReact } from "ag-grid-react"; // React Data Grid Component
 import Link from "next/link";
@@ -13,6 +14,11 @@ import useTodos from "../hooks/useTodos";
 import DetailsButton from "./DetailsButton";
 
 ModuleRegistry.registerModules([AllCommunityModule]);
+
+function dateFormatter(params: ValueFormatterParams) {
+  const date = new Date(params.value);
+  return date.toDateString();
+}
 
 const Page = () => {
   const { data: todos, error } = useTodos();
@@ -41,6 +47,11 @@ const Page = () => {
             { headerName: "Title", field: "title" },
             { headerName: "Description", field: "description", flex: 3 },
             { field: "status", cellRenderer: TodoStatusBadge },
+            {
+              field: "createdAt",
+              headerName: "Created At",
+              valueFormatter: dateFormatter,
+            },
           ]}
         />
       </div>
