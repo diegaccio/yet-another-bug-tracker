@@ -5,9 +5,14 @@ interface TodoDetailsPageProps {
   params: { id: string };
 }
 const TodoDetailsPage = async ({ params }: TodoDetailsPageProps) => {
-  const { id } = await params;
+  const { id: idString } = await params;
+
+  const id = parseInt(idString);
+
+  if (isNaN(id)) notFound();
+
   const todo = await prisma.todo.findUnique({
-    where: { id: parseInt(id) },
+    where: { id: id },
   });
 
   if (!todo) notFound();
