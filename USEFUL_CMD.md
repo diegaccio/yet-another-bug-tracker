@@ -34,3 +34,4 @@ npm i @hookform/resolvers
 npm i swr  
 npm i react-markdown
 npm install -D @tailwindcss/typography
+npm install react-loading-skeleton

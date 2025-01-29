@@ -1,14 +1,14 @@
-import { Button } from "@radix-ui/themes";
 import { CustomCellRendererProps } from "ag-grid-react";
-import Link from "next/link";
+import Link from "../components/Link";
 
 const DetailsButton = ({ value }: CustomCellRendererProps) => {
   const todoId = value as number;
 
   return (
-    <Button className="align-middle ml-auto mr-auto">
+    /*     <Button className="align-middle ml-auto mr-auto">
       <Link href={`/todos/${todoId}`}>Details</Link>
-    </Button>
+    </Button> */
+    <Link href={`/todos/${todoId}`}>Details</Link>
   );
 };
 
