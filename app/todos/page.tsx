@@ -10,6 +10,7 @@ import {
 import { useEffect, useState } from "react";
 import ErrorMessage from "../components/ErrorMessage";
 import { Todo } from "@prisma/client";
+import TodoStatusBadge from "../components/TodoStatusBadge";
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
@@ -53,7 +54,7 @@ const Page = () => {
             { field: "id" },
             { headerName: "Title", field: "title" },
             { headerName: "Description", field: "description", flex: 3 },
-            { field: "status" },
+            { field: "status", cellRenderer: TodoStatusBadge },
           ]}
         />
       </div>
