@@ -31,13 +31,15 @@ const Page = () => {
 
   return (
     <>
-      <Button className="mb-4">
-        <Link href={"/todos/new"}>New Todo</Link>{" "}
-      </Button>
+      <div>
+        <Button className="mb-4">
+          <Link href={"/todos/new"}>New Todo</Link>{" "}
+        </Button>
+      </div>
 
       <ErrorMessage>{error?.message}</ErrorMessage>
 
-      <div style={{ height: "500px" }}>
+      <div className="flex-1">
         <AgGridReact
           theme={myTheme}
           rowData={todos}

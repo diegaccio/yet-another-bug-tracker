@@ -33,7 +33,7 @@ export default function RootLayout({
       >
         <Theme accentColor="teal">
           <NavBar />
-          <main className="p-5">{children}</main>
+          <main className="p-5 flex h-dvh flex-col">{children}</main>
           {/* <ThemePanel /> */}
         </Theme>
       </body>

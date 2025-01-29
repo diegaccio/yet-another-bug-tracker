@@ -2,6 +2,7 @@ import TodoStatusBadge from "@/app/components/TodoStatusBadge";
 import { prisma } from "@/prisma/client";
 import { Card, Flex, Heading, Text } from "@radix-ui/themes";
 import { notFound } from "next/navigation";
+import ReactMarkdown from "react-markdown";
 
 interface TodoDetailsPageProps {
   params: { id: string };
@@ -26,7 +27,9 @@ const TodoDetailsPage = async ({ params }: TodoDetailsPageProps) => {
         <TodoStatusBadge status={todo.status} />
         <Text>{todo.createdAt.toDateString()}</Text>
       </Flex>
-      <Card>{todo.description}</Card>
+      <Card className="prose mt-4">
+        <ReactMarkdown>{todo.description}</ReactMarkdown>
+      </Card>
     </>
   );
 };

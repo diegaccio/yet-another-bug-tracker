@@ -30,3 +30,7 @@ npm install jest @types/jest ts-jest --save-dev
 npm install -D vitest @vitejs/plugin-react jsdom @testing-library/react @testing-library/dom vite-tsconfig-paths
 
 npm i @hookform/resolvers
+
+npm i swr  
+npm i react-markdown
+npm install -D @tailwindcss/typography
