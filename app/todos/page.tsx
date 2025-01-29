@@ -8,10 +8,10 @@ import {
 } from "ag-grid-community";
 import { AgGridReact } from "ag-grid-react"; // React Data Grid Component
 import Link from "next/link";
-import ErrorMessage from "../components/ErrorMessage";
+import { ErrorMessage } from "@/app/components";
+import TodoStatusBadgeGrid from "../components/TodoStatusBadgeGrid";
 import useTodos from "../hooks/useTodos";
 import DetailsButton from "./DetailsButton";
-import TodoStatusBadgeGrid from "../components/TodoStatusBadgeGrid";
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
