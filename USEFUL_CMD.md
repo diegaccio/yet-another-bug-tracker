@@ -32,6 +32,7 @@ npm install -D vitest @vitejs/plugin-react jsdom @testing-library/react @testing
 npm i @hookform/resolvers
 
 npm i swr  
+npm i ms
 npm i react-markdown
 npm install -D @tailwindcss/typography
 npm install react-loading-skeleton
