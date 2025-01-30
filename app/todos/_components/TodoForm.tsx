@@ -40,7 +40,11 @@ const TodoForm = ({ todo }: { todo?: Todo }) => {
   const onSubmit = handleSubmit(async (data) => {
     setSubmitting(true);
     try {
-      await axios.post("/api/todos", data);
+      if (todo) {
+        await axios.patch(`/api/todos/${todo.id}`, data);
+      } else {
+        await axios.post("/api/todos", data);
+      }
       router.push("/todos");
     } catch (error) {
       setSubmitting(false);
