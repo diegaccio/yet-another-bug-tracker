@@ -22,8 +22,10 @@ export async function PATCH(
     });
   }
 
+  const { id } = await params;
+
   const oldTodo = await prisma.todo.findUnique({
-    where: { id: parseInt(params.id) },
+    where: { id: parseInt(id) },
   });
 
   if (!oldTodo) {

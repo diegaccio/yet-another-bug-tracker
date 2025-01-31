@@ -1,13 +1,7 @@
-import Skeleton from "@/app/components/Skeleton";
-import { Box } from "@radix-ui/themes";
+import LoadingTodoForm from "../_components/LoadingTodoForm";
 
 const LoadNewTodo = () => {
-  return (
-    <Box className="max-w-xl">
-      <Skeleton height="2rem" />
-      <Skeleton height="20rem" />
-    </Box>
-  );
+  return <LoadingTodoForm />;
 };
 
 export default LoadNewTodo;
