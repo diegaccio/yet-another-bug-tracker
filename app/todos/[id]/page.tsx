@@ -1,9 +1,10 @@
 import { PageProps } from "@/.next/types/app/page";
 import { prisma } from "@/prisma/client";
-import { Box, Grid } from "@radix-ui/themes";
+import { Box, Flex, Grid } from "@radix-ui/themes";
 import { notFound } from "next/navigation";
 import EditTodoButton from "./EditTodoButton";
 import TodoDetails from "./TodoDetails";
+import DeleteTodoButton from "./DeleteTodoButton";
 
 const TodoDetailsPage = async ({ params }: PageProps) => {
   const { id: idString } = await params;
@@ -19,12 +20,15 @@ const TodoDetailsPage = async ({ params }: PageProps) => {
   if (!todo) notFound();
 
   return (
-    <Grid columns={{ initial: "1", md: "2" }} gap="5">
-      <Box>
+    <Grid columns={{ initial: "1", md: "5" }} gap="5">
+      <Box className="md:col-span-4">
         <TodoDetails todo={todo} />
       </Box>
       <Box>
-        <EditTodoButton todoId={todo.id} />
+        <Flex direction="column" gap="4">
+          <EditTodoButton todoId={todo.id} />
+          <DeleteTodoButton todoId={todo.id} />
+        </Flex>
       </Box>
     </Grid>
   );

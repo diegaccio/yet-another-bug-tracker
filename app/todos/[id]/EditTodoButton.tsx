@@ -7,7 +7,7 @@ const EditTodoButton = ({ todoId }: { todoId: number }) => {
   return (
     <Button>
       <Pencil2Icon />
-      <Link href={`/todos/${todoId}/edit`}>Edit Issue</Link>
+      <Link href={`/todos/${todoId}/edit`}>Edit</Link>
     </Button>
   );
 };
