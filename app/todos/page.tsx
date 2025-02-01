@@ -2,7 +2,7 @@
 import { ErrorMessage, TodoStatusBadgeGrid } from "@/app/components";
 import { Button } from "@radix-ui/themes";
 import {
-  AllCommunityModule,
+  ClientSideRowModelModule,
   ModuleRegistry,
   themeQuartz,
   ValueFormatterParams,
@@ -12,7 +12,7 @@ import Link from "next/link";
 import useTodos from "../hooks/useTodos";
 import DetailsButton from "./DetailsButton";
 
-ModuleRegistry.registerModules([AllCommunityModule]);
+ModuleRegistry.registerModules([ClientSideRowModelModule]);
 
 function dateFormatter(params: ValueFormatterParams) {
   const date = new Date(params.value);
@@ -38,7 +38,7 @@ const Page = () => {
 
       <ErrorMessage>{error?.message}</ErrorMessage>
 
-      <div className="flex-1">
+      <div style={{ height: 500 }}>
         <AgGridReact
           theme={myTheme}
           rowData={todos}
@@ -54,6 +54,7 @@ const Page = () => {
               valueFormatter: dateFormatter,
             },
           ]}
+          suppressServerSideFullWidthLoadingRow={true}
         />
       </div>
     </>

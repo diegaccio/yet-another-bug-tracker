@@ -33,8 +33,8 @@ export default function RootLayout({
       >
         <Theme accentColor="teal">
           <NavBar />
-          <main className="p-5 flex h-dvh flex-col">
-            <Container>{children}</Container>
+          <main className="">
+            <Container className="">{children}</Container>
           </main>
           {/* <ThemePanel /> */}
         </Theme>
