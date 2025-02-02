@@ -1,33 +1,18 @@
-"use client";
-import { ErrorMessage, TodoStatusBadgeGrid } from "@/app/components";
+import { prisma } from "@/prisma/client";
 import { Button } from "@radix-ui/themes";
-import {
-  ClientSideRowModelModule,
-  ModuleRegistry,
-  themeQuartz,
-  ValueFormatterParams,
-} from "ag-grid-community";
-import { AgGridReact } from "ag-grid-react"; // React Data Grid Component
 import Link from "next/link";
-import useTodos from "../hooks/useTodos";
-import DetailsButton from "./DetailsButton";
+import TodosGrid from "./TodosGrid";
+import { ErrorMessage } from "../components";
 
-ModuleRegistry.registerModules([ClientSideRowModelModule]);
-
-function dateFormatter(params: ValueFormatterParams) {
-  const date = new Date(params.value);
-  return date.toDateString();
-}
-
-const Page = () => {
-  const { data: todos, error } = useTodos();
-
-  const myTheme = themeQuartz.withParams({
-    spacing: 12,
-    accentColor: "green",
-    fontFamily: "Geist Mono",
-  });
-
+const TodosPage = async () => {
+  let todos = [];
+  console.log("Fetching TODOS from the DB...");
+  try {
+    todos = await prisma.todo.findMany();
+  } catch (error) {
+    console.log("DATABASE Error: " + error);
+    return <ErrorMessage>{"An unexpected error has occurred"}</ErrorMessage>;
+  }
   return (
     <>
       <div>
@@ -35,30 +20,9 @@ const Page = () => {
           <Link href={"/todos/new"}>New Todo</Link>{" "}
         </Button>
       </div>
-
-      <ErrorMessage>{error?.message}</ErrorMessage>
-
-      <div style={{ height: 500 }}>
-        <AgGridReact
-          theme={myTheme}
-          rowData={todos}
-          columnDefs={[
-            { field: "id", headerName: "", cellRenderer: DetailsButton },
-            { field: "id" },
-            { headerName: "Title", field: "title" },
-            { headerName: "Description", field: "description", flex: 3 },
-            { field: "status", cellRenderer: TodoStatusBadgeGrid },
-            {
-              field: "createdAt",
-              headerName: "Created At",
-              valueFormatter: dateFormatter,
-            },
-          ]}
-          suppressServerSideFullWidthLoadingRow={true}
-        />
-      </div>
+      <TodosGrid serverTodos={todos} />
     </>
   );
 };
 
-export default Page;
+export default TodosPage;
