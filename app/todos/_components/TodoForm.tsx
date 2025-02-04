@@ -1,20 +1,17 @@
 "use client";
-import { Button, Callout, TextField } from "@radix-ui/themes";
 import { InfoCircledIcon } from "@radix-ui/react-icons";
-import dynamic from "next/dynamic";
+import { Button, Callout, TextField } from "@radix-ui/themes";
 import "easymde/dist/easymde.min.css";
-import { Controller, useForm } from "react-hook-form";
-import axios from "axios";
+import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { todoSchema } from "@/app/validationSchemas";
-import z from "zod";
+import { Controller, useForm } from "react-hook-form";
 import ErrorMessage from "@/app/components/ErrorMessage";
 import Spinner from "@/app/components/Spinner";
+import { todoSchema, TodoSchemaType } from "@/app/validationSchemas";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Todo } from "@prisma/client";
-
-type TodoFormData = z.infer<typeof todoSchema>;
+import { useState } from "react";
+import { createTodo, patchTodo } from "@/app/actions/action";
 
 //lazy loading to avoid server side rendering
 const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
@@ -31,7 +28,7 @@ const TodoForm = ({ todo }: { todo?: Todo }) => {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<TodoFormData>({
+  } = useForm<TodoSchemaType>({
     resolver: zodResolver(todoSchema),
   });
 
@@ -39,7 +36,7 @@ const TodoForm = ({ todo }: { todo?: Todo }) => {
 
   const onSubmit = handleSubmit(async (data) => {
     setSubmitting(true);
-    try {
+    /*     try {
       if (todo) {
         await axios.patch(`/api/todos/${todo.id}`, data);
       } else {
@@ -50,7 +47,30 @@ const TodoForm = ({ todo }: { todo?: Todo }) => {
       setSubmitting(false);
       console.log(error);
       setError("An unexpected error occurred");
+    } */
+
+    let result = null;
+    if (todo) {
+      result = await patchTodo(data, todo.id);
+    } else {
+      result = await createTodo(data);
     }
+
+    if (!result) {
+      setError("An unexpected error occurred");
+      setSubmitting(false);
+      return;
+    }
+
+    if (result.error) {
+      setError("An unexpected error occurred: " + result.error);
+      setSubmitting(false);
+      return;
+    }
+
+    console.log("Todo added: " + data);
+
+    router.push("/todos");
   });
 
   return (

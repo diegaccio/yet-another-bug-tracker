@@ -1,8 +1,8 @@
 import { prisma } from "@/prisma/client";
-import { NextRequest, NextResponse } from "next/server";
-import { todoSchema } from "../../validationSchemas";
+import { NextResponse } from "next/server";
 
-export async function POST(request: NextRequest) {
+//this ia next.js server action now
+/* export async function POST(request: NextRequest) {
   let body;
   try {
     body = await request.json();
@@ -24,13 +24,14 @@ export async function POST(request: NextRequest) {
   });
 
   return NextResponse.json(newTodo, { status: 201 }); //CREATED
-}
+} */
 
 export async function GET() {
   try {
+    console.log("API/TODOS: Fetching TODOS from the DB...");
     const todos = await prisma.todo.findMany();
     return NextResponse.json(todos, {
-      status: 200, //BAD REQUEST
+      status: 200,
     });
   } catch (error) {
     return NextResponse.json(

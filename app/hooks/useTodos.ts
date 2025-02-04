@@ -9,7 +9,7 @@ const fetcher = (url: string) => {
 
 const useTodos = () =>
   useSWR<Todo[], Error>("/api/todos", fetcher, {
-    refreshInterval: ms("5s"),
+    refreshInterval: ms("1m"),
   });
 
 export default useTodos;

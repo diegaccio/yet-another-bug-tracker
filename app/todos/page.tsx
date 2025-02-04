@@ -6,7 +6,7 @@ import { ErrorMessage } from "../components";
 
 const TodosPage = async () => {
   let todos = [];
-  console.log("Fetching TODOS from the DB...");
+  console.log("TODO PAGE: Fetching TODOS from the DB...");
   try {
     todos = await prisma.todo.findMany();
   } catch (error) {
