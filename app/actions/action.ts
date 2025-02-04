@@ -2,7 +2,7 @@
 
 import { prisma } from "@/prisma/client";
 import { todoSchema, TodoSchemaType } from "../validationSchemas";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 
 export async function createTodo(data: TodoSchemaType) {
   const parse = todoSchema.safeParse(data);
@@ -18,7 +18,9 @@ export async function createTodo(data: TodoSchemaType) {
       data: { title: todo.title, description: todo.description },
     });
 
+    revalidateTag("todos");
     revalidatePath("/");
+
     return { success: true, data: newTodo };
   } catch (e) {
     return { success: false, error: "Failed to create todo: " + e };
@@ -47,6 +49,7 @@ export async function patchTodo(data: TodoSchemaType, todoId: number) {
       where: { id: oldTodo.id },
       data: { title: todo.title, description: todo.description },
     });
+    revalidateTag("todos");
     revalidatePath("/");
     return { success: true, data: newTodo };
   } catch (e) {

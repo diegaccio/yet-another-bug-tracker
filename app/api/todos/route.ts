@@ -1,4 +1,4 @@
-import { prisma } from "@/prisma/client";
+import { getCachedTodos } from "@/app/db/dbUtils";
 import { NextResponse } from "next/server";
 
 //this ia next.js server action now
@@ -28,8 +28,8 @@ import { NextResponse } from "next/server";
 
 export async function GET() {
   try {
-    console.log("API/TODOS: Fetching TODOS from the DB...");
-    const todos = await prisma.todo.findMany();
+    console.log("API/TODOS: Fetching TODOS from the cache...");
+    const todos = await getCachedTodos();
     return NextResponse.json(todos, {
       status: 200,
     });

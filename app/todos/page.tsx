@@ -1,14 +1,14 @@
-import { prisma } from "@/prisma/client";
 import { Button } from "@radix-ui/themes";
 import Link from "next/link";
 import TodosGrid from "./TodosGrid";
 import { ErrorMessage } from "../components";
+import { getCachedTodos } from "../db/dbUtils";
 
 const TodosPage = async () => {
   let todos = [];
-  console.log("TODO PAGE: Fetching TODOS from the DB...");
+  console.log("TODO PAGE: Fetching TODOS from the cache...");
   try {
-    todos = await prisma.todo.findMany();
+    todos = await getCachedTodos();
   } catch (error) {
     console.log("DATABASE Error: " + error);
     return <ErrorMessage>{"An unexpected error has occurred"}</ErrorMessage>;
