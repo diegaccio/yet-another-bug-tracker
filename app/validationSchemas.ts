@@ -6,3 +6,10 @@ export const todoSchema = z.object({
 });
 
 export type TodoSchemaType = z.infer<typeof todoSchema>;
+
+export const loginSchema = z.object({
+  username: z.string().min(1, "Username is required"),
+  password: z.string().min(4, "Password must be at least 4 characters long"),
+});
+
+export type LoginSchemaType = z.infer<typeof loginSchema>;
