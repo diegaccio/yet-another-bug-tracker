@@ -10,13 +10,17 @@ const EditTodoPage = async ({ params }: PageProps) => {
 
   if (isNaN(id)) notFound();
 
-  const todo = await prisma.todo.findUnique({
-    where: { id: id },
-  });
+  try {
+    const todo = await prisma.todo.findUnique({
+      where: { id: id },
+    });
+    if (!todo) notFound();
 
-  if (!todo) notFound();
-
-  return <TodoForm todo={todo} />;
+    return <TodoForm todo={todo} />;
+  } catch (error) {
+    console.log(error);
+    notFound();
+  }
 };
 
 export default EditTodoPage;
