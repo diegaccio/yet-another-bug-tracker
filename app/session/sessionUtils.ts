@@ -5,7 +5,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 const secretKey = process.env.SESSION_SECRET;
 const key = new TextEncoder().encode(secretKey);
-const expirationTime = "10s";
+const expirationTime = "10m";
 
 export type Session = { userId: number; userName: string; expires?: Date };
 
@@ -24,11 +24,13 @@ export async function decrypt(input: string): Promise<Session> {
   return payload;
 }
 
-export async function createNewSession(data: Session) {
-  // Verify credentials && get the user
+function getNewExpiryTime() {
+  return new Date(Date.now() + ms(expirationTime));
+}
 
+export async function createNewSession(data: Session) {
   // Create the session
-  data.expires = new Date(Date.now() + ms(expirationTime));
+  data.expires = getNewExpiryTime();
   const session = await encrypt(data);
 
   // Save the session in a cookie
@@ -55,7 +57,7 @@ export async function updateSession(request: NextRequest) {
 
   // Refresh the session so it doesn't expire
   const parsed = await decrypt(session);
-  parsed.expires = new Date(Date.now() + 10 * 1000);
+  parsed.expires = getNewExpiryTime();
   const res = NextResponse.next();
   res.cookies.set({
     name: "session",
