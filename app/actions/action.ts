@@ -8,7 +8,8 @@ import {
   TodoSchemaType,
 } from "../validationSchemas";
 import { revalidatePath, revalidateTag } from "next/cache";
-import { createNewSession } from "../session/sessionUtils";
+import { createNewSession, deleteSession } from "../session/sessionUtils";
+import { redirect } from "next/navigation";
 
 export async function createTodo(data: TodoSchemaType) {
   const parse = todoSchema.safeParse(data);
@@ -74,22 +75,13 @@ export async function login(data: LoginSchemaType) {
 
   console.log(loginData);
 
-  //return { success: false, error: "Invalid User" };
+  await createNewSession({ userId: 1, userName: loginData.username });
 
-  await createNewSession({ userId: 1 });
+  redirect("/");
+}
 
-  return { success: true, data: loginData };
-
-  /*   try {
-    const newTodo = await prisma.todo.create({
-      data: { title: todo.title, description: todo.description },
-    });
-
-    revalidateTag("todos");
-    revalidatePath("/");
-
-    return { success: true, data: newTodo };
-  } catch (e) {
-    return { success: false, error: "Failed to create todo: " + e };
-  } */
+export async function logout() {
+  await deleteSession();
+  revalidatePath("/");
+  redirect("/login");
 }

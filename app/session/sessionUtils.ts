@@ -1,17 +1,19 @@
 import { SignJWT, jwtVerify } from "jose";
+import ms from "ms";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
-const secretKey = "secret";
+const secretKey = process.env.SESSION_SECRET;
 const key = new TextEncoder().encode(secretKey);
+const expirationTime = "10s";
 
-export type Session = { userId: number; expires?: Date };
+export type Session = { userId: number; userName: string; expires?: Date };
 
 export async function encrypt(payload: Session) {
   return await new SignJWT(payload)
     .setProtectedHeader({ alg: "HS256" })
     .setIssuedAt()
-    .setExpirationTime("10 sec from now")
+    .setExpirationTime(expirationTime)
     .sign(key);
 }
 
@@ -26,7 +28,7 @@ export async function createNewSession(data: Session) {
   // Verify credentials && get the user
 
   // Create the session
-  data.expires = new Date(Date.now() + 10 * 1000);
+  data.expires = new Date(Date.now() + ms(expirationTime));
   const session = await encrypt(data);
 
   // Save the session in a cookie
@@ -36,7 +38,7 @@ export async function createNewSession(data: Session) {
   });
 }
 
-export async function logout() {
+export async function deleteSession() {
   // Destroy the session
   (await cookies()).set("session", "", { expires: new Date(0) });
 }

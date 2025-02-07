@@ -5,7 +5,6 @@ import { loginSchema, LoginSchemaType } from "@/app/validationSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { InfoCircledIcon } from "@radix-ui/react-icons";
 import { Box, Button, Callout, Spinner, TextField } from "@radix-ui/themes";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
@@ -17,8 +16,6 @@ const LoginForm = () => {
   } = useForm<LoginSchemaType>({
     resolver: zodResolver(loginSchema),
   });
-
-  const router = useRouter();
 
   const [error, setError] = useState("");
 
@@ -42,10 +39,6 @@ const LoginForm = () => {
       setSubmitting(false);
       return;
     }
-
-    console.log("Todo added: " + data);
-
-    router.push("/todos");
   });
   return (
     <Box className="p-6 rounded-lg shadow-lg bg-white max-w-md mx-auto">
