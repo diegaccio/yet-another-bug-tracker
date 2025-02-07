@@ -8,6 +8,7 @@ import {
   TodoSchemaType,
 } from "../validationSchemas";
 import { revalidatePath, revalidateTag } from "next/cache";
+import { createNewSession } from "../session/sessionUtils";
 
 export async function createTodo(data: TodoSchemaType) {
   const parse = todoSchema.safeParse(data);
@@ -73,9 +74,11 @@ export async function login(data: LoginSchemaType) {
 
   console.log(loginData);
 
-  return { success: false, error: "Invalid User" };
+  //return { success: false, error: "Invalid User" };
 
-  //return { success: true, data: loginData };
+  await createNewSession({ userId: 1 });
+
+  return { success: true, data: loginData };
 
   /*   try {
     const newTodo = await prisma.todo.create({

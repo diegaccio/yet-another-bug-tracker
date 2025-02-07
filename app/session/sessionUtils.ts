@@ -5,7 +5,7 @@ import { NextRequest, NextResponse } from "next/server";
 const secretKey = "secret";
 const key = new TextEncoder().encode(secretKey);
 
-export type Session = { userId: number; expires: Date };
+export type Session = { userId: number; expires?: Date };
 
 export async function encrypt(payload: Session) {
   return await new SignJWT(payload)

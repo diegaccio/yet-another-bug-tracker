@@ -24,19 +24,21 @@ const LoginForm = () => {
 
   const [isSubmitting, setSubmitting] = useState(false);
 
-  const onSubmit = handleSubmit(async (data) => {
+  const onSubmit = handleSubmit(async (data, e) => {
+    e?.preventDefault();
+
     setSubmitting(true);
 
     const result = await login(data);
 
-    if (!result) {
-      setError("An unexpected error occurred");
+    if (!result || !result.success) {
+      setError("Login Failed");
       setSubmitting(false);
       return;
     }
 
     if (result.error) {
-      setError(result.error as string);
+      setError("Login Failed");
       setSubmitting(false);
       return;
     }
