@@ -29,13 +29,7 @@ const LoginForm = () => {
     const result = await login(data);
 
     if (!result || !result.success) {
-      setError("Login Failed");
-      setSubmitting(false);
-      return;
-    }
-
-    if (result.error) {
-      setError("Login Failed");
+      setError(result.error as string);
       setSubmitting(false);
       return;
     }

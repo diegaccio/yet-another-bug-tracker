@@ -73,6 +73,20 @@ export async function login(data: LoginSchemaType) {
 
   const loginData = parse.data;
 
+  const user = await prisma.user.findFirst({
+    where: { userName: loginData.username },
+  });
+
+  console.log(user);
+
+  if (!user) {
+    return { success: false, error: "Invalid user" };
+  }
+
+  if (user.password !== loginData.password) {
+    return { success: false, error: "Invalid password" };
+  }
+
   console.log(loginData);
 
   await createNewSession({ userId: 1, userName: loginData.username });
