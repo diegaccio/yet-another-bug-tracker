@@ -5,10 +5,11 @@ import classnames from "classnames";
 
 const NavLinks = () => {
   const currentPath = usePathname();
+  console.log("RENDERING NavLinks - current path: " + currentPath);
 
   const links = [
-    { label: "Dashboard", href: "/" },
-    { label: "Todos", href: "/todos" },
+    { label: "Dashboard", href: "/", dataTestId: "home-link" },
+    { label: "Todos", href: "/todos", dataTestId: "todos-link" },
   ];
 
   return (
@@ -17,10 +18,12 @@ const NavLinks = () => {
         <li key={link.href}>
           <Link
             className={classnames({
-              "nav-link": true,
-              "!text-zinc-900": link.href === currentPath,
+              "text-zinc-800": currentPath === link.href,
+              "text-zinc-500": currentPath !== link.href,
+              "hover:text-zinc-800 transition-colors": true,
             })}
             href={link.href}
+            data-testid={link.dataTestId}
           >
             {link.label}
           </Link>

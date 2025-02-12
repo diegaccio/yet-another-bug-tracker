@@ -1,21 +1,23 @@
 "use client";
 import { Box, DropdownMenu, Button, Text } from "@radix-ui/themes";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { AiOutlineUser } from "react-icons/ai";
 import { logout } from "./actions/action";
 import { Session } from "./session/sessionUtils";
+import { usePathname } from "next/navigation";
 
 interface AuthStatusProps {
   session: Session | null;
 }
 
 const AuthStatus = ({ session }: AuthStatusProps) => {
-  //const session = await getSession();
+  console.log("RENDERING AuthStatus", session);
 
-  const router = useRouter();
+  const currentPath = usePathname();
 
-  if (!session)
+  console.log("RENDERING AuthStatus", session, currentPath);
+
+  if (!session || currentPath === "/login")
     return (
       <Link className="nav-link" href="/login">
         Login
@@ -31,12 +33,12 @@ const AuthStatus = ({ session }: AuthStatusProps) => {
         <DropdownMenu.Content>
           <DropdownMenu.Label>
             <Text size="2">User id: {session.userName}</Text>
+            <Text>{Date.now().toString()}</Text>
           </DropdownMenu.Label>
           <DropdownMenu.Item>
             <Button
               onClick={() => {
                 logout();
-                router.push("/login");
               }}
             >
               Log Out

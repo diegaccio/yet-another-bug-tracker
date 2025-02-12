@@ -46,9 +46,17 @@ export async function deleteSession() {
 }
 
 export async function getSession() {
+  console.log("SESSION: starting getSession...");
   const session = (await cookies()).get("session")?.value;
-  if (!session) return null;
-  return await decrypt(session);
+  console.log("SESSION: cookies fetched", session);
+  if (!session) {
+    console.log("SESSION: no session found");
+    return null;
+  }
+
+  const decryptedSession = await decrypt(session);
+  console.log("SESSION: session decrypted", decryptedSession);
+  return decryptedSession;
 }
 
 export async function updateSession(request: NextRequest) {
@@ -66,4 +74,12 @@ export async function updateSession(request: NextRequest) {
     expires: parsed.expires,
   });
   return res;
+}
+
+export async function resetSession(response: NextResponse) {
+  response.cookies.set({
+    name: "session",
+    value: "",
+  });
+  return response;
 }

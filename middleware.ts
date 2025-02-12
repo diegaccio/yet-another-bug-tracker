@@ -1,5 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getSession, updateSession } from "./app/session/sessionUtils";
+import {
+  getSession,
+  resetSession,
+  updateSession,
+} from "./app/session/sessionUtils";
 //import { revalidatePath } from "next/cache";
 
 const publicRoutes = ["/login"];
@@ -10,8 +14,10 @@ export async function middleware(request: NextRequest) {
   if (!publicRoutes.includes(request.nextUrl.pathname)) {
     if (!session?.userId) {
       console.log("MIDDLEWARE unauthorized path: " + request.nextUrl.pathname);
-      //revalidatePath("/");
-      return NextResponse.redirect(new URL("/login", request.nextUrl));
+      //revalidatePath("/", "layout");
+      return await resetSession(
+        NextResponse.redirect(new URL("/login", request.nextUrl))
+      );
     } else {
       console.log("MIDDLEWARE session: " + session);
       console.log(

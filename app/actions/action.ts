@@ -8,7 +8,11 @@ import {
   TodoSchemaType,
 } from "../validationSchemas";
 import { revalidatePath, revalidateTag } from "next/cache";
-import { createNewSession, deleteSession } from "../session/sessionUtils";
+import {
+  createNewSession,
+  deleteSession,
+  getSession,
+} from "../session/sessionUtils";
 import { redirect } from "next/navigation";
 
 export async function createTodo(data: TodoSchemaType) {
@@ -95,7 +99,9 @@ export async function login(data: LoginSchemaType) {
 }
 
 export async function logout() {
+  const session = await getSession();
+  console.log("ACTION LOGOUT - user:" + session?.userName);
   await deleteSession();
-  revalidatePath("/");
+  //revalidatePath("/");
   redirect("/login");
 }
