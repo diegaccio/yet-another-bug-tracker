@@ -68,6 +68,30 @@ export async function patchTodo(data: TodoSchemaType, todoId: number) {
   }
 }
 
+export async function toggleUserAdmin(userId: number) {
+  console.log("Toggle User Admin Id: " + userId);
+  const oldUser = await prisma.user.findUnique({
+    where: { id: userId },
+  });
+
+  if (!oldUser) {
+    return false; //NOT FOUND
+  }
+
+  try {
+    await prisma.user.update({
+      where: { id: oldUser.id },
+      data: { admin: !oldUser.admin },
+    });
+    //revalidateTag("users");
+    revalidatePath("/users");
+    //redirect("/users");
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 export async function login(data: LoginSchemaType) {
   const parse = loginSchema.safeParse(data);
 

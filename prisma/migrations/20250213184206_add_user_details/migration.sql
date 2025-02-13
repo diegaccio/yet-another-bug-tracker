@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE `User` ADD COLUMN `admin` BOOLEAN NOT NULL DEFAULT false,
+    ADD COLUMN `email` VARCHAR(255) NOT NULL DEFAULT '';

@@ -29,7 +29,9 @@ enum Status {
 }
 
 model User {
-  id       Int    @id @default(autoincrement())
-  userName String @db.VarChar(255)
-  password String @db.VarChar(255)
+  id       Int     @id @default(autoincrement())
+  userName String  @db.VarChar(255)
+  password String  @db.VarChar(255)
+  email    String  @default("") @db.VarChar(255)
+  admin    Boolean @default(false)
 }

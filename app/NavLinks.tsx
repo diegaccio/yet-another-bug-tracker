@@ -10,6 +10,7 @@ const NavLinks = () => {
   const links = [
     { label: "Dashboard", href: "/", dataTestId: "home-link" },
     { label: "Todos", href: "/todos", dataTestId: "todos-link" },
+    { label: "Users", href: "/users", dataTestId: "users-link" },
   ];
 
   return (
