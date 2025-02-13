@@ -1,36 +1,11 @@
 import React from "react";
 import { getUsers } from "../db/dbUtils";
-import { Table } from "@radix-ui/themes";
-import UserUpdaterButton from "./UserUpdaterButton";
+import UsersTable from "./UsersTable";
 
 const UsersPage = async () => {
   const users = await getUsers();
 
-  return (
-    <Table.Root>
-      <Table.Header>
-        <Table.Row>
-          <Table.ColumnHeaderCell>Username</Table.ColumnHeaderCell>
-          <Table.ColumnHeaderCell>Email</Table.ColumnHeaderCell>
-          <Table.ColumnHeaderCell>Admin</Table.ColumnHeaderCell>
-          <Table.ColumnHeaderCell>Action</Table.ColumnHeaderCell>
-        </Table.Row>
-      </Table.Header>
-
-      <Table.Body>
-        {users.map((user) => (
-          <Table.Row key={user.id}>
-            <Table.RowHeaderCell>{user.userName}</Table.RowHeaderCell>
-            <Table.Cell>{user.email}</Table.Cell>
-            <Table.Cell>{user.admin ? "Admin" : "User"}</Table.Cell>
-            <Table.Cell>
-              <UserUpdaterButton id={user.id}></UserUpdaterButton>
-            </Table.Cell>
-          </Table.Row>
-        ))}
-      </Table.Body>
-    </Table.Root>
-  );
+  return <UsersTable serverUsers={users}></UsersTable>;
 };
 
 export default UsersPage;
