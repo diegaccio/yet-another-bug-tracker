@@ -5,8 +5,6 @@ import AuthStatus from "./AuthStatus";
 import NavLinks from "./NavLinks";
 import { getSession } from "./session/sessionUtils";
 
-export const dynamic = "force-dynamic";
-
 const NavBar = async () => {
   //using cookies in layout does not invalitate the Router Cache
   const session = await getSession();

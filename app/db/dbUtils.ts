@@ -6,6 +6,19 @@ export const getUsers = async () => {
   return prisma.user.findMany();
 };
 
+export const getLastUsersUpdateTime = async () => {
+  console.log("Fetching LAST USER UPDATE from the DB...");
+  const lastUserUpdate = await prisma.user.findFirst({
+    orderBy: {
+      updatedAt: "desc",
+    },
+    select: {
+      updatedAt: true,
+    },
+  });
+  return lastUserUpdate?.updatedAt;
+};
+
 const getTodos = async () => {
   console.log("Fetching TODOS from the DB...");
   return prisma.todo.findMany();

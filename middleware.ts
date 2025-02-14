@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import {
   getSession,
   resetSession,
-  updateSession,
+  //updateSession,
 } from "./app/session/sessionUtils";
 //import { revalidatePath } from "next/cache";
 
@@ -20,16 +20,19 @@ export async function middleware(request: NextRequest) {
       );
     } else {
       console.log("MIDDLEWARE session: " + session);
-      console.log(
-        "MIDDLEWARE updateting session for userId: " + session?.userId
-      );
+      //console.log(
+      //  "MIDDLEWARE updateting session for userId: " + session?.userId
+      //);
 
-      return await updateSession(request);
+      //return await updateSession(request);
+      return NextResponse.next();
     }
   }
 }
 
 // Routes Middleware should not run on
 export const config = {
-  matcher: ["/((?!api|_next/static|_next/image|.*\\.png$).*)"],
+  matcher: [
+    "/((?!api|_next/static|_next/image|.*\\.png$|.*\\?server-action=.*).*)",
+  ],
 };
