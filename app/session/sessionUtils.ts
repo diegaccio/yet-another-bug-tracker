@@ -76,6 +76,26 @@ export async function updateSession(request: NextRequest) {
   return res;
 }
 
+export async function updateSessionFromServerAction() {
+  const cookieStore = await cookies();
+
+  const session = cookieStore.get("session")?.value;
+  if (!session) return null;
+
+  // Refresh the session so it doesn't expire
+  const parsed = await decrypt(session);
+  parsed.expires = getNewExpiryTime();
+
+  cookieStore.set({
+    name: "session",
+    value: await encrypt(parsed),
+    httpOnly: true,
+    expires: parsed.expires,
+  });
+
+  return parsed;
+}
+
 export async function resetSession(response: NextResponse) {
   response.cookies.set({
     name: "session",

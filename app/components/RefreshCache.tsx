@@ -3,14 +3,20 @@
 import { useEffect, useState } from "react";
 import { useInterval } from "react-interval-hook";
 
-export function RefreshCache({ check }: { check: () => Promise<void> }) {
+export function RefreshCache({
+  check,
+  lastTime,
+}: {
+  check: (lastTime: Date | undefined) => Promise<void>;
+  lastTime: Date | undefined;
+}) {
   const [shouldRun, setShouldRun] = useState(
     typeof document !== "undefined" && document.hasFocus()
   );
 
   useEffect(() => {
     const onFocus = () => {
-      check();
+      check(lastTime);
       setShouldRun(true);
     };
     const onBlur = () => setShouldRun(false);
@@ -22,9 +28,13 @@ export function RefreshCache({ check }: { check: () => Promise<void> }) {
       window.removeEventListener("focus", onFocus);
       window.removeEventListener("blur", onBlur);
     };
-  }, [check]);
+  }, [check, lastTime]);
 
-  useInterval(check, shouldRun ? 10000 : undefined);
+  const innerCheck = async () => {
+    check(lastTime);
+  };
+
+  useInterval(innerCheck, shouldRun ? 10000 : undefined);
 
   return null;
 }

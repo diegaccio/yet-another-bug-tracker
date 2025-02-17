@@ -12,8 +12,10 @@ import {
   createNewSession,
   deleteSession,
   getSession,
+  updateSessionFromServerAction,
 } from "../session/sessionUtils";
 import { redirect } from "next/navigation";
+import { getLastUsersUpdateTime } from "../db/dbUtils";
 
 export async function createTodo(data: TodoSchemaType) {
   const parse = todoSchema.safeParse(data);
@@ -65,6 +67,22 @@ export async function patchTodo(data: TodoSchemaType, todoId: number) {
     return { success: true, data: newTodo };
   } catch (e) {
     return { success: false, error: "Failed to update todo: " + e };
+  }
+}
+
+export async function checkUsersChange(lastUpdated: Date | undefined) {
+  console.log("CHECK USERS CHANGES");
+
+  const checkPostLastUpdated = await getLastUsersUpdateTime();
+  console.log(checkPostLastUpdated, lastUpdated);
+
+  const didChange =
+    lastUpdated?.getTime() !== checkPostLastUpdated?.getTime() ||
+    lastUpdated?.getDate() !== checkPostLastUpdated?.getDate();
+
+  if (didChange) {
+    console.log("INVALIDATING USERS");
+    revalidatePath("/users");
   }
 }
 
@@ -128,4 +146,14 @@ export async function logout() {
   await deleteSession();
   //revalidatePath("/");
   redirect("/login");
+}
+
+export async function getClientSession() {
+  //const session = await getSession();
+  const session = await updateSessionFromServerAction();
+  console.log(
+    "ACTION GET CLIENT SESSION and REFRESH - user:" + session?.userName
+  );
+
+  return session;
 }

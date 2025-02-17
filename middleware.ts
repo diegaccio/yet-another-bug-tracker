@@ -19,7 +19,9 @@ export async function middleware(request: NextRequest) {
         NextResponse.redirect(new URL("/login", request.nextUrl))
       );
     } else {
-      console.log("MIDDLEWARE session: " + session);
+      console.log(
+        "MIDDLEWARE path: " + request.nextUrl.pathname + " session: " + session
+      );
       //console.log(
       //  "MIDDLEWARE updateting session for userId: " + session?.userId
       //);

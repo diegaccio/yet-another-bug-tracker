@@ -1,10 +1,13 @@
 import { User } from "@prisma/client";
-import { Table } from "@radix-ui/themes";
+import { Table, Text } from "@radix-ui/themes";
 import UserUpdaterButton from "./UserUpdaterButton";
 
 const UsersTable = ({ users }: { users: User[] }) => {
+  console.log("Rendering Users Table");
   return (
     <>
+      <Text>{new Date().toLocaleString()}</Text>
+      <Text></Text>
       <Table.Root>
         <Table.Header>
           <Table.Row>
